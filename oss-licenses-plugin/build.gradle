@@ -20,34 +20,7 @@ dependencies {
 group = 'com.google.android.gms'
 version = '0.10.6'
 
-apply plugin: 'maven'
-
 repositories {
     google()
     mavenCentral()
-}
-
-// upload and build in local
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
-            pom.project {
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
-                }
-
-            }
-        }
-    }
-}
-
-// generate zip file for android maven release tool
-task packageFiles(type: Zip, dependsOn: 'uploadArchives') {
-    def groupDir = rootProject.group.replaceAll('\\.', '/')
-    from("../repo/$groupDir/$rootProject.name/$rootProject.version/")
 }
