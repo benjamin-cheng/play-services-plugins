@@ -259,10 +259,18 @@ abstract class LicensesTask extends DefaultTask {
                 appendDependency(
                         new Dependency("${licenseKey} ${licenseName}", libraryName),
                         licenseUrl.getBytes(UTF_8))
+                logger.error("Library: $libraryName has ${licenseKey} ${licenseName} from ${licenseUrl}")
+                if (licenseUrl.contains("GPL")) {
+                    throw new IllegalStateException("Library: $libraryName has GPL license")
+                }
             }
         } else {
             String nodeUrl = rootNode.licenses.license.url
             appendDependency(new Dependency(licenseKey, libraryName), nodeUrl.getBytes(UTF_8))
+            logger.error("Library: $libraryName has ${licenseKey} from ${nodeUrl}")
+            if (nodeUrl.contains("GPL")) {
+                throw new IllegalStateException("Library: $libraryName has GPL license")
+            }
         }
     }
 
